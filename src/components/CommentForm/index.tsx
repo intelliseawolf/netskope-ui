@@ -2,12 +2,21 @@ import { Form, Button } from "react-bootstrap";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
+interface CommentFormProps {
+  submitForm: Function;
+}
+
+export interface CommentFormData {
+  comment: string;
+  name: string;
+}
+
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("*Name is required"),
   comment: Yup.string().required("*Comment is required"),
 });
 
-const CommentForm = () => {
+const CommentForm = ({ submitForm }: CommentFormProps) => {
   return (
     <Formik
       initialValues={{ name: "", comment: "" }}
@@ -15,8 +24,8 @@ const CommentForm = () => {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setSubmitting(true);
         resetForm();
+        submitForm(values);
         setSubmitting(false);
-        console.log(values);
       }}
     >
       {({
@@ -32,9 +41,10 @@ const CommentForm = () => {
           <Form.Group controlId="formName">
             <Form.Label>Comment :</Form.Label>
             <Form.Control
-              type="text"
+              as="textarea"
               name="comment"
               placeholder="Comment"
+              rows={4}
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.comment}

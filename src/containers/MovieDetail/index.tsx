@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
@@ -8,19 +8,56 @@ import CommentForm from "../../components/CommentForm";
 import { movieListState } from "../../store/movie";
 import { commentListState } from "../../store/comment";
 import type { MovieItem } from "../../interface/movie";
+import type { CommentFormData } from "../../components/CommentForm";
 
 const MovieDetail = () => {
   const [movie, setMovie] = useState<MovieItem | null>(null);
   const [movieList] = useRecoilState(movieListState);
   const [commentList, setCommentList] = useRecoilState(commentListState);
   const { id } = useParams();
+  const movieComments = useMemo(() => {
+    const index = commentList.findIndex((comment) => comment.movieId === id);
+
+    if (index === -1) {
+      return [];
+    } else {
+      return commentList[index].comments;
+    }
+  }, [commentList, id]);
 
   useEffect(() => {
     const movieIndex = movieList.findIndex((item) => item.id === id);
     setMovie(movieList[movieIndex]);
   }, [id, movieList]);
 
-  function saveComment() {}
+  function addComment(data: CommentFormData) {
+    if (!id) return;
+
+    const index = commentList.findIndex((comment) => comment.movieId === id);
+    const newArray = [...commentList];
+
+    if (index !== -1) {
+      newArray[index] = {
+        movieId: id,
+        comments: [
+          ...commentList[index].comments,
+          {
+            name: data.name,
+            comment: data.comment,
+          },
+        ],
+      };
+      setCommentList(newArray);
+    } else {
+      setCommentList([
+        ...commentList,
+        {
+          movieId: id,
+          comments: [{ name: data.name, comment: data.comment }],
+        },
+      ]);
+    }
+  }
 
   return (
     <Container>
@@ -66,7 +103,13 @@ const MovieDetail = () => {
           <hr className="py-2" />
           <section>
             <h3 className="">Comments</h3>
-            <CommentForm />
+            {movieComments.map((comment) => (
+              <div>
+                <strong>{comment?.name}: </strong>
+                {comment?.comment}
+              </div>
+            ))}
+            <CommentForm submitForm={addComment} />
           </section>
         </Col>
       </Row>
