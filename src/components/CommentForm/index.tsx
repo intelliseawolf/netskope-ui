@@ -38,8 +38,7 @@ const CommentForm = ({ submitForm }: CommentFormProps) => {
         isSubmitting,
       }) => (
         <Form onSubmit={handleSubmit} className="mx-auto">
-          <Form.Group controlId="formName">
-            <Form.Label>Comment :</Form.Label>
+          <Form.Group controlId="formName" className="mt-2">
             <Form.Control
               as="textarea"
               name="comment"
@@ -56,8 +55,7 @@ const CommentForm = ({ submitForm }: CommentFormProps) => {
               <div className="error-message">{errors.comment}</div>
             ) : null}
           </Form.Group>
-          <Form.Group controlId="formName">
-            <Form.Label>Name :</Form.Label>
+          <Form.Group controlId="formName" className="mt-2">
             <Form.Control
               type="text"
               name="name"

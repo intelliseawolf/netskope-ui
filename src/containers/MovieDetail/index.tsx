@@ -69,48 +69,45 @@ const MovieDetail = () => {
       </div>
       <hr className="py-3" />
       <Row>
+        <Col>
+          <div>
+            <strong>Genre: </strong>
+            {movie?.genre}
+          </div>
+          <div>
+            <strong>Studio: </strong>
+            {movie?.studio}
+          </div>
+          <div>
+            <strong>User Rating: </strong>
+            {movie?.userRating}%
+          </div>
+          <div>
+            <strong>Profitability: </strong>
+            {Math.round(Number(movie?.profitability) * 10) / 10}%
+          </div>
+          <div>
+            <strong>Rotten Tomatoes Rating: </strong>
+            {movie?.rottenRating}
+          </div>
+          <div>
+            <strong>Worldwide Gross: </strong>
+            {movie?.gross}m
+          </div>
+          <div>
+            <strong>Year Release: </strong>
+            {movie?.release}
+          </div>
+        </Col>
         <Col md="6">
-          <section>
+          <h3 className="">Comments</h3>
+          {movieComments.map((comment) => (
             <div>
-              <strong>Genre: </strong>
-              {movie?.genre}
+              <strong>{comment?.name}: </strong>
+              {comment?.comment}
             </div>
-            <div>
-              <strong>Studio: </strong>
-              {movie?.studio}
-            </div>
-            <div>
-              <strong>User Rating: </strong>
-              {movie?.userRating}%
-            </div>
-            <div>
-              <strong>Profitability: </strong>
-              {Math.round(Number(movie?.profitability) * 10) / 10}%
-            </div>
-            <div>
-              <strong>Rotten Tomatoes Rating: </strong>
-              {movie?.rottenRating}
-            </div>
-            <div>
-              <strong>Worldwide Gross: </strong>
-              {movie?.gross}m
-            </div>
-            <div>
-              <strong>Year Release: </strong>
-              {movie?.release}
-            </div>
-          </section>
-          <hr className="py-2" />
-          <section>
-            <h3 className="">Comments</h3>
-            {movieComments.map((comment) => (
-              <div>
-                <strong>{comment?.name}: </strong>
-                {comment?.comment}
-              </div>
-            ))}
-            <CommentForm submitForm={addComment} />
-          </section>
+          ))}
+          <CommentForm submitForm={addComment} />
         </Col>
       </Row>
     </Container>
