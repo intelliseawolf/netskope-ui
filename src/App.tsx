@@ -1,18 +1,21 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { RecoilRoot } from "recoil";
 
 import Layout from "./containers/Layout";
 import Home from "./containers/Home";
 
 const App: React.FC = () => (
-  <BrowserRouter>
-    <Layout />
-    <main>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </main>
-  </BrowserRouter>
+  <RecoilRoot>
+    <BrowserRouter>
+      <Layout />
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </main>
+    </BrowserRouter>
+  </RecoilRoot>
 );
 
 export default App;
