@@ -1,7 +1,8 @@
 export interface MovieItem {
-  id: number;
+  id: string;
   name: string;
   genre: string;
+  studio: string;
   userRating: string;
   profitability: string;
   rottenRating: string;
