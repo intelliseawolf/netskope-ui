@@ -2,6 +2,7 @@ version: "3.3"
 
 services:
   netskope-ui:
+    # images: intelliseawolf/netskope-ui:1
     build:
       context: ./app
     ports:
